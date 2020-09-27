@@ -50,11 +50,20 @@ namespace TGWTest.Validators
                 switch (key)
                 {
                     case "ordersPerHour":
-                        return (value?.ToInt() < 50000 && value?.ToInt() > 0);
+                        int val = 0;
+                        int.TryParse(value, out val);
+                        if (val < 50000 && val > 0)
+                            return true;
+                        Console.WriteLine($"{key} value not in range ({value})");
+                        return false;
                     case "orderLinesPerOrder":
                         return true;
                     case "inboundStrategy":
-                        return true;
+                        var values = new List<string> { "random", "optimized" };
+                        if (values.Contains(value))
+                            return true;
+                        Console.WriteLine($"{key} value not recognised");
+                        return false;
                     case "powerSupply":
                         return true;
                     case "resultStartTime":
